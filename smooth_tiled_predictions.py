@@ -41,7 +41,6 @@ def _spline_window(window_size, power=2):
     wind = wind / np.average(wind)
     return wind
 
-
 cached_2d_windows = dict()
 def _window_2D(window_size, power=2):
     """
@@ -294,6 +293,31 @@ def cheap_tiling_prediction(img, window_size, nb_classes, pred_func):
     return prd
 
 
+# def get_dummy_img(xy_size=128, nb_channels=3):
+#     """
+#     Create a random image with different luminosity in the corners.
+#
+#     Returns an array of shape (xy_size, xy_size, nb_channels).
+#     """
+#     x = np.random.random((xy_size, xy_size, nb_channels))
+#     x = x + np.ones((xy_size, xy_size, 1))
+#     lin = np.expand_dims(
+#         np.expand_dims(
+#             np.linspace(0, 1, xy_size),
+#             nb_channels),
+#         nb_channels)
+#     x = x * lin
+#     x = x * lin.transpose(1, 0, 2)
+#     x = x + x[::-1, ::-1, :]
+#     x = x - np.min(x)
+#     x = x / np.max(x) / 2
+#     gc.collect()
+#     if PLOT_PROGRESS:
+#         plt.imshow(x)
+#         plt.title("Random image for a test")
+#         plt.show()
+#     return x
+
 def get_dummy_img(xy_size=128, nb_channels=3):
     """
     Create a random image with different luminosity in the corners.
@@ -305,8 +329,8 @@ def get_dummy_img(xy_size=128, nb_channels=3):
     lin = np.expand_dims(
         np.expand_dims(
             np.linspace(0, 1, xy_size),
-            nb_channels),
-        nb_channels)
+            axis=1),
+        axis=2)
     x = x * lin
     x = x * lin.transpose(1, 0, 2)
     x = x + x[::-1, ::-1, :]
